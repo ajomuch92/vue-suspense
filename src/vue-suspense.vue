@@ -58,6 +58,7 @@ export default Vue.extend({
         this.error = err;
         this.hasError = true;
         this.$emit('input', undefined);
+        this.$emit('on-error', err);
       } finally {
         this.loadingData = false; 
       }
