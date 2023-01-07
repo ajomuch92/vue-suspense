@@ -1,88 +1,75 @@
+
+<template>
+  <component :is="tag" class="vue-suspense">
+    <div v-if="loadingData" class="loading-container">
+      <slot name="loading">
+        <loading />
+      </slot>
+    </div>
+    <slot v-else-if="hasError" name="error" v-bind:error="error" />
+    <slot v-else name="default" />
+  </component>
+</template>
+
 <script lang="ts">
 import Vue from 'vue';
+import loading from './loading.vue';
 
-interface SampleData {
-  counter: number;
-  initCounter: number;
-  message: {
-    action: string | null;
-    amount: number | null;
-  };
+interface VueSuspenseData {
+  loadingData: Boolean;
+  hasError: Boolean;
+  error?: any;
 }
 
-export default /*#__PURE__*/Vue.extend({
-  name: 'VueSuspense', // vue component name
-  data(): SampleData {
+export default Vue.extend({
+  components: { loading },
+  name: 'VueSuspense',
+  props: {
+    value: {
+      type: [String, Number, Boolean, Array, Object],
+      default: undefined,
+    },
+    promise: {
+      type: Promise,
+      required: true,
+    },
+    tag: {
+      type: String,
+      default: 'div'
+    },
+  },
+  data(): VueSuspenseData {
     return {
-      counter: 5,
-      initCounter: 5,
-      message: {
-        action: null,
-        amount: null,
-      },
+      loadingData: false,
+      hasError: false,
+      error: undefined,
     };
   },
-  computed: {
-    changedBy() {
-      const { message } = this as SampleData;
-      if (!message.action) return 'initialized';
-      return `${message.action} ${message.amount || ''}`.trim();
-    },
+  created() {
+    this.loadData();
   },
   methods: {
-    increment(arg: Event | number): void {
-      const amount = (typeof arg !== 'number') ? 1 : arg;
-      this.counter += amount;
-      this.message.action = 'incremented by';
-      this.message.amount = amount;
-    },
-    decrement(arg: Event | number): void {
-      const amount = (typeof arg !== 'number') ? 1 : arg;
-      this.counter -= amount;
-      this.message.action = 'decremented by';
-      this.message.amount = amount;
-    },
-    reset(): void {
-      this.counter = this.initCounter;
-      this.message.action = 'reset';
-      this.message.amount = null;
-    },
+    async loadData() {
+      this.loadingData = true;
+      try {
+        const data: any = await this.promise;
+        this.$emit('input', data);
+      } catch (err: any) {
+        this.error = err;
+        this.hasError = true;
+        this.$emit('input', undefined);
+      } finally {
+        this.loadingData = false; 
+      }
+    }
   },
 });
 </script>
 
-<template>
-  <div class="vue-suspense">
-    <p>The counter was {{ changedBy }} to <b>{{ counter }}</b>.</p>
-    <button @click="increment">
-      Click +1
-    </button>
-    <button @click="decrement">
-      Click -1
-    </button>
-    <button @click="increment(5)">
-      Click +5
-    </button>
-    <button @click="decrement(5)">
-      Click -5
-    </button>
-    <button @click="reset">
-      Reset
-    </button>
-  </div>
-</template>
-
 <style scoped>
-  .vue-suspense {
-    display: block;
-    width: 400px;
-    margin: 25px auto;
-    border: 1px solid #ccc;
-    background: #eaeaea;
-    text-align: center;
-    padding: 25px;
-  }
-  .vue-suspense p {
-    margin: 0 0 1em;
-  }
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
