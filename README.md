@@ -1,7 +1,7 @@
 
 # Vue Suspense
 
-A package to use with use with Vuejs 2 to load data while is showing a placeholder.
+A package to use with use with Vuejs 2 to load data while is showing a loading placeholder.
 Also offers an error fallback template.
 
 
@@ -74,7 +74,7 @@ Vue.use(VueSuspense);
 
 <script lang="ts">
 import Vue from 'vue';
-import VueSuspense from '@/vue-suspense.vue';
+import VueSuspense from 'vue-suspense.vue';
 
 export default Vue.extend({
   name: 'ServeDev',
@@ -112,7 +112,7 @@ See an example [here](https://github.com/ajomuch92/vue-suspense/blob/main/dev/se
 
 - [@ajomuch92](https://www.github.com/ajomuch92)
 
-Feel free to open a PR or create an issue to contribute to this package.
+Feel free to [open a PR](https://github.com/ajomuch92/vue-suspense/pulls) or [create an issue](https://github.com/ajomuch92/vue-suspense/issues) to contribute to this package.
 
 
 ## License
