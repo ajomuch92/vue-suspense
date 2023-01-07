@@ -22,8 +22,8 @@ interface VueSuspenseData {
 }
 
 export default Vue.extend({
-  components: { loading },
   name: 'VueSuspense',
+  components: { loading },
   props: {
     value: {
       type: [String, Number, Boolean, Array, Object],
