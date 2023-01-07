@@ -9,10 +9,10 @@ Also offers an error fallback template.
 
 ## Installation
 
-Install vue-suspense with NPM
+Install vue2-suspense with NPM
 
 ```bash
-  npm install vue-suspense
+  npm install vue2-suspense
 ```
 
 And use it into your main file
@@ -20,7 +20,7 @@ And use it into your main file
 ```javascript
 import Vue from 'vue';
 
-import VueSuspense from 'vue-suspense';
+import VueSuspense from 'vue2-suspense';
 
 Vue.use(VueSuspense);
 ```
@@ -74,13 +74,9 @@ Vue.use(VueSuspense);
 
 <script lang="ts">
 import Vue from 'vue';
-import VueSuspense from 'vue-suspense.vue';
 
 export default Vue.extend({
-  name: 'ServeDev',
-  components: {
-    VueSuspense
-  },
+  name: 'App',
   data: () => ({
     keyFlag: false,
     dataLoaded: [],

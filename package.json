@@ -1,5 +1,5 @@
 {
-  "name": "vue-suspense",
+  "name": "vue2-suspense",
   "version": "0.0.1",
   "description": "Project to use a component for a placeholder when loading data from a promise",
   "repository": {
